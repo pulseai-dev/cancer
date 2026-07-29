@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Della Respira';
+  src: url('/fonts/DellaRespira-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('https://fonts.gstatic.com/s/inter/v18/UcCo3FwrK3iLTcviYwYZ90OmSqEpJpE.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('https://fonts.gstatic.com/s/inter/v18/UcCo3FwrK3iLTcviYwYZ90OmSqEpJpE.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('https://fonts.gstatic.com/s/inter/v18/UcCo3FwrK3iLTcviYwYZ90OmSqEpJpE.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    overflow-x: clip;
+  }
+  body {
+    @apply font-body bg-bg-light text-neutral antialiased;
+  }
+  h1, h2, h3 {
+    @apply font-heading;
+  }
+}
+
+@layer components {
+  .liquid-glass {
+    @apply backdrop-blur-glass bg-white/10 border border-white/20;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Grid background pattern */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(95, 94, 90, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(95, 94, 90, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
