@@ -24,9 +24,18 @@ export default {
       },
       borderRadius: {
         card: '12px',
+        '2xl': '16px',
+        '3xl': '24px',
       },
       backdropBlur: {
-        glass: '4px',
+        glass: '12px',
+      },
+      boxShadow: {
+        'depth-sm': '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px -2px rgba(24,95,165,0.06)',
+        'depth-md': '0 4px 6px -1px rgba(0,0,0,0.04), 0 12px 24px -4px rgba(24,95,165,0.08)',
+        'depth-lg': '0 8px 16px -2px rgba(0,0,0,0.04), 0 24px 48px -8px rgba(24,95,165,0.1)',
+        'glow': '0 0 20px -4px rgba(24,95,165,0.15)',
+        'glow-lg': '0 0 40px -8px rgba(24,95,165,0.2)',
       },
       height: {
         'btn-xs': '28px',
@@ -40,6 +49,7 @@ export default {
         'fill-bar': 'fillBar 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
         'shimmer': 'shimmer 2s infinite',
         'scale-in': 'scaleIn 0.3s ease-out',
+        'pulse-subtle': 'pulseSubtle 3s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -61,6 +71,10 @@ export default {
         scaleIn: {
           '0%': { opacity: '0', transform: 'scale(0.95)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        pulseSubtle: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.7' },
         },
       },
     },

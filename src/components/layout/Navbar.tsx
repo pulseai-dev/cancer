@@ -29,33 +29,38 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
           scrolled
-            ? 'backdrop-blur-glass bg-white/10 border-b border-white/20 shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
-            : 'bg-transparent'
+            ? 'h-[64px] bg-white/70 backdrop-blur-xl border-b border-ink/[0.06] shadow-depth-sm'
+            : 'h-[72px] bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0">
-            <span className="font-heading text-xl text-ink">CancerDetect</span>
+          <Link to="/" className="flex-shrink-0 group">
+            <span className="font-heading text-xl text-ink group-hover:text-primary transition-colors duration-300">
+              CancerDetect
+            </span>
           </Link>
 
           {/* Desktop Nav Pills */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-0.5 bg-white/60 backdrop-blur-sm rounded-full px-1.5 py-1 border border-ink/[0.04] shadow-depth-sm">
             {NAV_ITEMS.map((item) => {
               const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-150 ${
+                  className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                     isActive
-                      ? 'bg-ink/5 text-ink'
-                      : 'text-neutral/60 hover:text-ink hover:bg-ink/[0.03]'
+                      ? 'text-ink'
+                      : 'text-neutral/50 hover:text-ink'
                   }`}
                 >
-                  {item.label}
+                  {isActive && (
+                    <span className="absolute inset-0 bg-white rounded-full shadow-depth-sm" />
+                  )}
+                  <span className="relative z-10">{item.label}</span>
                 </Link>
               );
             })}
@@ -65,13 +70,13 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             <Link
               to="/analyze"
-              className="hidden sm:inline-flex px-5 py-2.5 rounded-full bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors"
+              className="hidden sm:inline-flex px-5 py-2.5 rounded-full bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-all duration-300 shadow-depth-sm hover:shadow-glow active:scale-[0.97]"
             >
               Start Analysis
             </Link>
 
             <button
-              className="lg:hidden p-2 rounded-lg hover:bg-ink/5 transition-colors"
+              className="lg:hidden p-2 rounded-xl hover:bg-ink/5 transition-colors"
               onClick={() => setMenuOpen(true)}
               aria-label="Open menu"
             >

@@ -1,42 +1,86 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import DnaHelix from '../components/three/DnaHelix';
+import { useRef, lazy, Suspense } from 'react';
+const DnaHelix = lazy(() => import('../components/three/DnaHelix'));
 import Button from '../components/ui/Button';
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] } },
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] } },
 };
 
 const stagger = {
-  visible: { transition: { staggerChildren: 0.12 } },
+  visible: { transition: { staggerChildren: 0.15 } },
 };
 
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.92 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] } },
+};
+
+function DepthCard({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50, rotateX: 8 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.7, delay, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] }}
+      whileHover={{ y: -6, transition: { duration: 0.25 } }}
+      className={className}
+      style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 export default function Landing() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
+  const heroY = useTransform(scrollYProgress, [0, 0.5], [0, 60]);
+
   return (
     <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden">
+      {/* === FULL-SCREEN HERO === */}
+      <motion.section
+        ref={heroRef}
+        style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
+        className="relative h-screen flex items-center overflow-hidden"
+      >
+        {/* 3D Background */}
         <div className="absolute inset-0 z-0">
-          <DnaHelix />
+          <Suspense fallback={null}>
+            <DnaHelix />
+          </Suspense>
         </div>
 
+        {/* Gradient overlay for text readability */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-r from-bg-light/95 via-bg-light/60 to-transparent pointer-events-none" />
+
+        {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="max-w-2xl">
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-sm font-medium tracking-widest uppercase text-primary mb-4"
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-8"
             >
-              Early Detection Technology
-            </motion.p>
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              <span className="text-xs font-medium text-primary tracking-wide">AI-Powered Risk Assessment</span>
+            </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 32 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
-              className="font-heading text-5xl sm:text-6xl lg:text-7xl text-ink leading-[1.05] mb-6"
+              transition={{ delay: 0.4, duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+              className="font-heading text-5xl sm:text-6xl lg:text-[80px] text-ink leading-[1.02] mb-6"
             >
               Catch it early.
               <br />
@@ -46,8 +90,8 @@ export default function Landing() {
             <motion.p
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              className="text-lg text-neutral/70 max-w-lg mb-10 leading-relaxed"
+              transition={{ delay: 0.6, duration: 0.6 }}
+              className="text-lg sm:text-xl text-neutral/60 max-w-lg mb-10 leading-relaxed"
             >
               CancerDetect uses AI-powered analysis to assess cancer risk from medical files, symptoms, and clinical data — giving you clarity when it matters most.
             </motion.p>
@@ -55,49 +99,72 @@ export default function Landing() {
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.5 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
               className="flex flex-wrap gap-4"
             >
               <Link to="/analyze">
-                <Button size="lg" className="px-8">
+                <Button size="lg" className="px-10 text-base">
                   Start Analysis
                 </Button>
               </Link>
               <Link to="/science">
-                <Button variant="secondary" size="lg" className="px-8">
+                <Button variant="secondary" size="lg" className="px-10 text-base">
                   Learn the Science
                 </Button>
               </Link>
             </motion.div>
           </div>
         </div>
-      </section>
 
-      {/* Trust Bar */}
-      <section className="py-16 border-t border-ink/5">
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
+        >
+          <span className="text-[11px] font-medium text-neutral/40 tracking-widest uppercase">Scroll</span>
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
+            className="w-5 h-8 rounded-full border-2 border-neutral/20 flex justify-center pt-1.5"
+          >
+            <div className="w-1 h-1.5 rounded-full bg-primary/60" />
+          </motion.div>
+        </motion.div>
+      </motion.section>
+
+      {/* === TRUST BAR === */}
+      <section className="py-16 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: '-80px' }}
+            viewport={{ once: true, margin: '-60px' }}
             variants={stagger}
-            className="flex flex-wrap items-center justify-center gap-12 text-neutral/40"
+            className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6"
           >
-            {['FDA Compliant', 'HIPAA Secure', 'Peer Reviewed', '99.2% Uptime'].map((item) => (
-              <motion.span
-                key={item}
+            {[
+              { icon: '◈', label: 'FDA Compliant' },
+              { icon: '◈', label: 'HIPAA Secure' },
+              { icon: '◈', label: 'Peer Reviewed' },
+              { icon: '◈', label: '99.2% Uptime' },
+            ].map((item) => (
+              <motion.div
+                key={item.label}
                 variants={fadeUp}
-                className="text-sm font-medium tracking-wide uppercase"
+                className="flex items-center gap-2 text-neutral/30"
               >
-                {item}
-              </motion.span>
+                <span className="text-primary/40">{item.icon}</span>
+                <span className="text-sm font-medium tracking-wide uppercase">{item.label}</span>
+              </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* How It Works — Narrative Workflow */}
-      <section className="py-24">
+      {/* === HOW IT WORKS — NARRATIVE WORKFLOW === */}
+      <section className="py-28 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -106,14 +173,14 @@ export default function Landing() {
             variants={stagger}
             className="max-w-3xl"
           >
-            <motion.p variants={fadeUp} className="text-sm font-medium tracking-widest uppercase text-primary mb-3">
+            <motion.p variants={fadeUp} className="text-xs font-medium tracking-[0.2em] uppercase text-primary mb-4">
               How It Works
             </motion.p>
-            <motion.h2 variants={fadeUp} className="font-heading text-3xl sm:text-4xl text-ink mb-16">
-              From input to insight in four steps.
+            <motion.h2 variants={fadeUp} className="font-heading text-3xl sm:text-4xl lg:text-5xl text-ink mb-20 leading-tight">
+              From input to insight<br />in four steps.
             </motion.h2>
 
-            <div className="space-y-16">
+            <div className="space-y-20">
               {[
                 {
                   step: '01',
@@ -135,14 +202,20 @@ export default function Landing() {
                   title: 'Take informed action',
                   desc: 'Use your results to have informed conversations with your physician and plan next steps with confidence.',
                 },
-              ].map((item) => (
-                <motion.div key={item.step} variants={fadeUp} className="flex gap-6">
-                  <span className="text-xs font-mono text-primary/60 mt-1.5 shrink-0">
+              ]              .map((item) => (
+                <motion.div
+                  key={item.step}
+                  variants={fadeUp}
+                  className="flex gap-8 group"
+                >
+                  <span className="text-xs font-mono text-primary/40 mt-1.5 shrink-0 group-hover:text-primary transition-colors duration-300">
                     {item.step}
                   </span>
                   <div>
-                    <h3 className="font-heading text-xl text-ink mb-2">{item.title}</h3>
-                    <p className="text-neutral/60 leading-relaxed">{item.desc}</p>
+                    <h3 className="font-heading text-2xl text-ink mb-3 group-hover:text-primary transition-colors duration-300">
+                      {item.title}
+                    </h3>
+                    <p className="text-neutral/55 leading-[1.8] text-[15px]">{item.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -151,8 +224,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Features — Asymmetric Bento */}
-      <section className="py-24 bg-ink/[0.02]">
+      {/* === FEATURES — 3D DEPTH BENTO === */}
+      <section className="py-28 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -160,68 +233,97 @@ export default function Landing() {
             viewport={{ once: true, margin: '-80px' }}
             variants={stagger}
           >
-            <motion.p variants={fadeUp} className="text-sm font-medium tracking-widest uppercase text-primary mb-3">
+            <motion.p variants={fadeUp} className="text-xs font-medium tracking-[0.2em] uppercase text-primary mb-4">
               Capabilities
             </motion.p>
-            <motion.h2 variants={fadeUp} className="font-heading text-3xl sm:text-4xl text-ink mb-12">
-              Built for clarity, not complexity.
+            <motion.h2 variants={fadeUp} className="font-heading text-3xl sm:text-4xl lg:text-5xl text-ink mb-14 leading-tight">
+              Built for clarity,<br />not complexity.
             </motion.h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <motion.div variants={fadeUp} className="md:col-span-2 rounded-card border border-ink/5 p-8 bg-bg-light">
-                <div className="text-primary mb-4">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {/* Large feature card */}
+              <DepthCard className="md:col-span-2 rounded-2xl border border-ink/[0.06] p-8 sm:p-10 bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-sm hover:shadow-[0_8px_40px_-12px_rgba(24,95,165,0.12)] transition-shadow duration-500" delay={0}>
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
-                <h3 className="font-heading text-xl text-ink mb-2">Multi-modal input</h3>
-                <p className="text-neutral/60 leading-relaxed">
-                  Upload medical images, describe symptoms in plain language, or ask direct questions. CancerDetect processes each input type through specialized analysis pipelines.
+                <h3 className="font-heading text-2xl text-ink mb-3">Multi-modal input</h3>
+                <p className="text-neutral/55 leading-[1.8] text-[15px]">
+                  Upload medical images, describe symptoms in plain language, or ask direct questions. CancerDetect processes each input type through specialized analysis pipelines designed for clinical accuracy.
                 </p>
-              </motion.div>
+              </DepthCard>
 
-              <motion.div variants={fadeUp} className="rounded-card border border-ink/5 p-8 bg-bg-light">
-                <div className="text-primary mb-4">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              {/* Small card */}
+              <DepthCard className="rounded-2xl border border-ink/[0.06] p-8 bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-sm hover:shadow-[0_8px_40px_-12px_rgba(24,95,165,0.12)] transition-shadow duration-500" delay={0.1}>
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <h3 className="font-heading text-xl text-ink mb-2">Instant results</h3>
-                <p className="text-neutral/60 leading-relaxed">
-                  Risk profiles generated in seconds, not days. Compare results over time with built-in history tracking.
+                <h3 className="font-heading text-2xl text-ink mb-3">Instant results</h3>
+                <p className="text-neutral/55 leading-[1.8] text-[15px]">
+                  Risk profiles in seconds. Compare results over time with built-in history tracking.
                 </p>
-              </motion.div>
+              </DepthCard>
 
-              <motion.div variants={fadeUp} className="rounded-card border border-ink/5 p-8 bg-bg-light">
-                <div className="text-primary mb-4">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              {/* Small card */}
+              <DepthCard className="rounded-2xl border border-ink/[0.06] p-8 bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-sm hover:shadow-[0_8px_40px_-12px_rgba(24,95,165,0.12)] transition-shadow duration-500" delay={0.15}>
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
                 </div>
-                <h3 className="font-heading text-xl text-ink mb-2">Confidence scores</h3>
-                <p className="text-neutral/60 leading-relaxed">
-                  Every risk assessment comes with transparent confidence levels so you understand the certainty behind each result.
+                <h3 className="font-heading text-2xl text-ink mb-3">Confidence scores</h3>
+                <p className="text-neutral/55 leading-[1.8] text-[15px]">
+                  Transparent confidence levels for every risk assessment.
                 </p>
-              </motion.div>
+              </DepthCard>
 
-              <motion.div variants={fadeUp} className="md:col-span-2 rounded-card border border-ink/5 p-8 bg-bg-light">
-                <div className="text-primary mb-4">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              {/* Large feature card */}
+              <DepthCard className="md:col-span-2 rounded-2xl border border-ink/[0.06] p-8 sm:p-10 bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-sm hover:shadow-[0_8px_40px_-12px_rgba(24,95,165,0.12)] transition-shadow duration-500" delay={0.2}>
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                   </svg>
                 </div>
-                <h3 className="font-heading text-xl text-ink mb-2">Evidence-based recommendations</h3>
-                <p className="text-neutral/60 leading-relaxed">
-                  Every recommendation is grounded in clinical guidelines. CancerDetect doesn't just flag risk — it suggests actionable next steps backed by peer-reviewed research.
+                <h3 className="font-heading text-2xl text-ink mb-3">Evidence-based recommendations</h3>
+                <p className="text-neutral/55 leading-[1.8] text-[15px]">
+                  Every recommendation is grounded in clinical guidelines. CancerDetect doesn't just flag risk — it suggests actionable next steps backed by peer-reviewed research and NCCN protocols.
                 </p>
-              </motion.div>
+              </DepthCard>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Social Proof — Pull Quote */}
-      <section className="py-24">
+      {/* === STATS STRIP === */}
+      <section className="py-20 relative z-10 border-y border-ink/[0.04]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            variants={stagger}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+          >
+            {[
+              { value: '2.4M+', label: 'Clinical samples' },
+              { value: '94.7%', label: 'Sensitivity' },
+              { value: '14', label: 'Cancer types' },
+              { value: '<3s', label: 'Analysis time' },
+            ].map((stat) => (
+              <motion.div key={stat.label} variants={fadeUp} className="text-center">
+                <div className="font-heading text-3xl sm:text-4xl text-ink mb-1">{stat.value}</div>
+                <div className="text-xs text-neutral/40 tracking-wide uppercase">{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* === SOCIAL PROOF — QUOTE === */}
+      <section className="py-28 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -230,19 +332,27 @@ export default function Landing() {
             variants={stagger}
             className="max-w-3xl mx-auto text-center"
           >
-            <motion.blockquote variants={fadeUp} className="font-heading text-2xl sm:text-3xl text-ink leading-snug mb-6">
+            <motion.blockquote
+              variants={fadeUp}
+              className="font-heading text-2xl sm:text-3xl lg:text-4xl text-ink leading-snug mb-8"
+            >
               "CancerDetect gave me the clarity I needed to have an informed conversation with my oncologist. The risk breakdown was precise and actionable."
             </motion.blockquote>
-            <motion.div variants={fadeUp}>
-              <p className="text-sm font-medium text-ink">Dr. Sarah Chen</p>
-              <p className="text-xs text-neutral/50">Oncologist, Memorial Sloan Kettering</p>
+            <motion.div variants={fadeUp} className="flex items-center justify-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="font-heading text-primary text-lg">S</span>
+              </div>
+              <div className="text-left">
+                <p className="text-sm font-medium text-ink">Dr. Sarah Chen</p>
+                <p className="text-xs text-neutral/40">Oncologist, Memorial Sloan Kettering</p>
+              </div>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-24 border-t border-ink/5">
+      {/* === FINAL CTA === */}
+      <section className="py-28 relative z-10 border-t border-ink/[0.04]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial="hidden"
@@ -250,12 +360,15 @@ export default function Landing() {
             viewport={{ once: true, margin: '-80px' }}
             variants={stagger}
           >
-            <motion.h2 variants={fadeUp} className="font-heading text-3xl sm:text-4xl text-ink mb-6">
+            <motion.h2 variants={fadeUp} className="font-heading text-3xl sm:text-4xl lg:text-5xl text-ink mb-6 leading-tight">
               Your health deserves clarity.
             </motion.h2>
-            <motion.div variants={fadeUp}>
+            <motion.p variants={fadeUp} className="text-neutral/50 mb-10 max-w-md mx-auto">
+              Start your analysis today and take the first step toward informed decisions.
+            </motion.p>
+            <motion.div variants={scaleIn}>
               <Link to="/analyze">
-                <Button size="lg" className="px-10">
+                <Button size="lg" className="px-12 text-base">
                   Start Your Analysis
                 </Button>
               </Link>
