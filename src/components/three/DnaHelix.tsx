@@ -92,10 +92,10 @@ export default function DnaHelix() {
 
     // ===== DNA GROUP =====
     const dnaGroup = new THREE.Group();
-    const helixRadius = 0.9;
-    const helixHeight = 9;
-    const turns = 2.5;
-    const pointsPerStrand = 100;
+    const helixRadius = 0.65;
+    const helixHeight = 7;
+    const turns = 2;
+    const pointsPerStrand = 80;
 
     // Strand materials — liquid glass look
     const strandMat1 = new THREE.MeshPhysicalMaterial({
@@ -137,7 +137,7 @@ export default function DnaHelix() {
 
       const curve = new THREE.CatmullRomCurve3(points);
       const tube = new THREE.Mesh(
-        new THREE.TubeGeometry(curve, 160, 0.07, 10, false),
+        new THREE.TubeGeometry(curve, 120, 0.06, 8, false),
         strand === 0 ? strandMat1 : strandMat2
       );
       dnaGroup.add(tube);
@@ -157,7 +157,7 @@ export default function DnaHelix() {
     const sphereGeom = new THREE.SphereGeometry(0.06, 10, 10);
 
     const rungs: { mesh: THREE.Mesh; sphere1: THREE.Mesh; sphere2: THREE.Mesh; baseY: number }[] = [];
-    const rungCount = 25;
+    const rungCount = 20;
     for (let i = 0; i < rungCount; i++) {
       const t = (i + 1) / (rungCount + 1);
       const angle1 = t * turns * Math.PI * 2;
@@ -189,15 +189,17 @@ export default function DnaHelix() {
     }
 
     dnaGroup.rotation.x = 0.3;
+    dnaGroup.position.x = 3.5;
+    dnaGroup.scale.setScalar(0.75);
     scene.add(dnaGroup);
 
     // ===== GLASS ORBS — liquid glass spheres =====
     const glassOrbs: THREE.Mesh[] = [];
     const orbPositions = [
-      { x: -2.5, y: 2, z: 1 },
-      { x: 3, y: -1.5, z: -1 },
-      { x: -1.5, y: -3, z: 2 },
-      { x: 2, y: 3, z: -2 },
+      { x: 1.5, y: 2.5, z: 1 },
+      { x: 5, y: -1, z: -1 },
+      { x: 2, y: -3, z: 2 },
+      { x: 5.5, y: 2.5, z: -2 },
     ];
 
     orbPositions.forEach((pos) => {
@@ -243,6 +245,7 @@ export default function DnaHelix() {
       const torus = new THREE.Mesh(geom, mat);
       torus.rotation.x = td.rotX;
       torus.rotation.z = td.rotZ;
+      torus.position.x = 3.5;
       torus.userData = { speed: 0.002 + Math.random() * 0.003, axis: Math.random() > 0.5 ? 'x' : 'z' };
       scene.add(torus);
       toruses.push(torus);
@@ -259,9 +262,9 @@ export default function DnaHelix() {
 
     for (let i = 0; i < pCount; i++) {
       const i3 = i * 3;
-      pPos[i3] = (Math.random() - 0.5) * 22;
-      pPos[i3 + 1] = (Math.random() - 0.5) * 16;
-      pPos[i3 + 2] = (Math.random() - 0.5) * 12;
+      pPos[i3] = (Math.random() - 0.3) * 20 + 2;
+      pPos[i3 + 1] = (Math.random() - 0.5) * 14;
+      pPos[i3 + 2] = (Math.random() - 0.5) * 10;
 
       const r = Math.random();
       const c = r < 0.4 ? pColor1 : r < 0.6 ? pColor2 : pColor3;
@@ -297,7 +300,7 @@ export default function DnaHelix() {
       opacity: 0.06,
     });
     const glowSphere = new THREE.Mesh(glowGeom, glowMat);
-    glowSphere.position.set(0, 0, 5);
+    glowSphere.position.set(3.5, 0, 5);
     scene.add(glowSphere);
 
     // ===== ANIMATION =====
@@ -332,9 +335,9 @@ export default function DnaHelix() {
       dnaGroup.rotation.x += (m.rotX - dnaGroup.rotation.x) * 0.12;
 
       // === CAMERA — subtle parallax ===
-      camera.position.x = THREE.MathUtils.lerp(camera.position.x, m.x * 1.5, 0.04);
+      camera.position.x = THREE.MathUtils.lerp(camera.position.x, 3.5 + m.x * 1.5, 0.04);
       camera.position.y = THREE.MathUtils.lerp(camera.position.y, -m.y * 1, 0.04);
-      camera.lookAt(0, 0, 0);
+      camera.lookAt(3.5, 0, 0);
 
       // === SPOTLIGHT follows mouse ===
       spotLight.position.x = THREE.MathUtils.lerp(spotLight.position.x, m.x * 6, 0.03);
