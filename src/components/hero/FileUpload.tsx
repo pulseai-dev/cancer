@@ -64,6 +64,10 @@ export default function FileUpload() {
         onDragLeave={() => setDragActive(false)}
         onDrop={handleDrop}
         onClick={() => inputRef.current?.click()}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); inputRef.current?.click(); }}}
+        role="button"
+        tabIndex={0}
+        aria-label="Upload medical file. Drag and drop or click to browse."
         className={`relative cursor-pointer rounded-card border-2 border-dashed p-6 text-center transition-all duration-200 ${
           dragActive
             ? 'border-primary bg-primary/5'
@@ -71,7 +75,7 @@ export default function FileUpload() {
             ? 'border-success bg-success/5'
             : error
             ? 'border-danger bg-danger/5'
-            : 'border-gray-300 hover:border-gray-400 hover:bg-white/50'
+            : 'border-neutral/20 hover:border-neutral/40 hover:bg-white/50'
         }`}
       >
         <input
@@ -122,7 +126,7 @@ export default function FileUpload() {
           <img
             src={preview}
             alt="File preview"
-            className="w-24 h-24 object-cover rounded-lg border border-gray-200"
+            className="w-24 h-24 object-cover rounded-lg border border-neutral/10"
           />
         </div>
       )}

@@ -1,4 +1,4 @@
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, useContext, useMemo, type ReactNode } from 'react';
 import { useAnalysis } from '../hooks/useAnalysis';
 import type { AnalysisInput, AnalysisResponse } from '../types';
 
@@ -17,8 +17,20 @@ const AnalysisContext = createContext<AnalysisContextType | null>(null);
 
 export function AnalysisProvider({ children }: { children: ReactNode }) {
   const analysis = useAnalysis();
+
+  const value = useMemo(() => analysis, [
+    analysis.input,
+    analysis.result,
+    analysis.loading,
+    analysis.error,
+    analysis.updateInput,
+    analysis.analyze,
+    analysis.reset,
+    analysis.clearError,
+  ]);
+
   return (
-    <AnalysisContext.Provider value={analysis}>
+    <AnalysisContext.Provider value={value}>
       {children}
     </AnalysisContext.Provider>
   );

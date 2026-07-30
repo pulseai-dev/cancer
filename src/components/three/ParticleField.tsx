@@ -4,6 +4,7 @@ import * as THREE from 'three';
 export default function ParticleField() {
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
+  const smoothMouseRef = useRef({ x: 0, y: 0 });
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
@@ -28,6 +29,7 @@ export default function ParticleField() {
     const particleCount = 250;
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
+    const sizes = new Float32Array(particleCount);
     const velocities: { x: number; y: number; z: number }[] = [];
 
     const primaryColor = new THREE.Color(0x185FA5);
@@ -45,6 +47,8 @@ export default function ParticleField() {
       colors[i3] = color.r;
       colors[i3 + 1] = color.g;
       colors[i3 + 2] = color.b;
+
+      sizes[i] = 0.03 + Math.random() * 0.04;
 
       velocities.push({
         x: (Math.random() - 0.5) * 0.003,
@@ -86,8 +90,9 @@ export default function ParticleField() {
       raf = requestAnimationFrame(animate);
       frameCount++;
 
-      // Smooth mouse
-      mouseRef.current.x += (mouseRef.current.x - mouseRef.current.x) * 0.01;
+      // Smooth mouse with lerp
+      smoothMouseRef.current.x += (mouseRef.current.x - smoothMouseRef.current.x) * 0.05;
+      smoothMouseRef.current.y += (mouseRef.current.y - smoothMouseRef.current.y) * 0.05;
 
       // Update particles
       for (let i = 0; i < particleCount; i++) {
@@ -102,7 +107,7 @@ export default function ParticleField() {
       }
       posAttr.needsUpdate = true;
 
-      // Rebuild lines every 12 frames (CPU savings)
+      // Rebuild lines every 12 frames
       if (frameCount % 12 === 0) {
         while (lineGroup.children.length > 0) {
           const child = lineGroup.children[0];
@@ -137,9 +142,9 @@ export default function ParticleField() {
         }
       }
 
-      // Camera subtle movement
-      camera.position.x = THREE.MathUtils.lerp(camera.position.x, mouseRef.current.x * 0.8, 0.02);
-      camera.position.y = THREE.MathUtils.lerp(camera.position.y, -mouseRef.current.y * 0.5, 0.02);
+      // Camera movement using smoothed mouse
+      camera.position.x = THREE.MathUtils.lerp(camera.position.x, smoothMouseRef.current.x * 0.8, 0.02);
+      camera.position.y = THREE.MathUtils.lerp(camera.position.y, -smoothMouseRef.current.y * 0.5, 0.02);
       camera.lookAt(0, 0, 0);
 
       renderer.render(scene, camera);
@@ -154,6 +159,7 @@ export default function ParticleField() {
       renderer.setSize(container.clientWidth, container.clientHeight);
     };
     window.addEventListener('resize', onResize);
+    window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       cancelAnimationFrame(raf);
@@ -164,11 +170,6 @@ export default function ParticleField() {
         container.removeChild(renderer.domElement);
       }
     };
-  }, [handleMouseMove]);
-
-  useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [handleMouseMove]);
 
   return (
