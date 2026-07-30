@@ -53,68 +53,78 @@ export default function Landing() {
         style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
         className="relative h-screen flex items-center overflow-hidden"
       >
-        {/* 3D Background */}
-        <div className="absolute inset-0 z-0">
-          <Suspense fallback={null}>
-            <DnaHelix />
-          </Suspense>
-        </div>
-
-        {/* Gradient overlay — narrow left strip so 3D shows through */}
-        <div className="absolute inset-0 z-[1] pointer-events-none">
-          <div className="absolute inset-0 w-full md:w-[45%] bg-gradient-to-r from-bg-light/90 via-bg-light/50 to-transparent" />
-        </div>
-
-        {/* Content */}
+        {/* Content — two column split */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="max-w-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-8 lg:gap-12 items-center min-h-[80vh]">
+
+            {/* LEFT — Text */}
+            <div className="max-w-xl">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full liquid-glass-hero mb-8"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                <span className="text-xs font-medium text-primary tracking-wide">AI-Powered Risk Assessment</span>
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+                className="font-heading text-5xl sm:text-6xl lg:text-[72px] text-ink leading-[1.05] mb-6"
+              >
+                Catch it early.
+                <br />
+                <span className="text-primary">Beat it early.</span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.6 }}
+                className="text-lg text-neutral/55 max-w-md mb-10 leading-relaxed"
+              >
+                CancerDetect uses AI-powered analysis to assess cancer risk from medical files, symptoms, and clinical data — giving you clarity when it matters most.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+                className="flex flex-wrap gap-4"
+              >
+                <Link to="/analyze">
+                  <Button size="lg" className="px-10 text-base">
+                    Start Analysis
+                  </Button>
+                </Link>
+                <Link to="/science">
+                  <Button variant="secondary" size="lg" className="px-10 text-base">
+                    Learn the Science
+                  </Button>
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* RIGHT — 3D Scene in contained card */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full liquid-glass-hero mb-8"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5, duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
+              className="relative rounded-3xl overflow-hidden liquid-glass-card"
+              style={{ aspectRatio: '4/3', minHeight: '400px' }}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <span className="text-xs font-medium text-primary tracking-wide">AI-Powered Risk Assessment</span>
+              <Suspense fallback={
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+                </div>
+              }>
+                <DnaHelix />
+              </Suspense>
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-              className="font-heading text-5xl sm:text-6xl lg:text-[80px] text-ink leading-[1.02] mb-6"
-            >
-              Catch it early.
-              <br />
-              <span className="text-primary">Beat it early.</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-              className="text-lg sm:text-xl text-neutral/60 max-w-lg mb-10 leading-relaxed"
-            >
-              CancerDetect uses AI-powered analysis to assess cancer risk from medical files, symptoms, and clinical data — giving you clarity when it matters most.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
-              className="flex flex-wrap gap-4"
-            >
-              <Link to="/analyze">
-                <Button size="lg" className="px-10 text-base">
-                  Start Analysis
-                </Button>
-              </Link>
-              <Link to="/science">
-                <Button variant="secondary" size="lg" className="px-10 text-base">
-                  Learn the Science
-                </Button>
-              </Link>
-            </motion.div>
           </div>
         </div>
 
