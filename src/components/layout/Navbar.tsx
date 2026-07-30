@@ -31,7 +31,7 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
           scrolled
-            ? 'h-[64px] bg-white/70 backdrop-blur-xl border-b border-ink/[0.06] shadow-depth-sm'
+            ? 'h-[64px] liquid-glass-hero border-b border-white/10 shadow-glass'
             : 'h-[72px] bg-transparent'
         }`}
       >
@@ -44,7 +44,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav Pills */}
-          <div className="hidden lg:flex items-center gap-0.5 bg-white/60 backdrop-blur-sm rounded-full px-1.5 py-1 border border-ink/[0.04] shadow-depth-sm">
+          <div className="hidden lg:flex items-center gap-0.5 liquid-glass-hero rounded-full px-1.5 py-1">
             {NAV_ITEMS.map((item) => {
               const isActive = location.pathname === item.path;
               return (

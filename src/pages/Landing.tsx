@@ -60,8 +60,10 @@ export default function Landing() {
           </Suspense>
         </div>
 
-        {/* Gradient overlay for text readability */}
-        <div className="absolute inset-0 z-[1] bg-gradient-to-r from-bg-light/95 via-bg-light/60 to-transparent pointer-events-none" />
+        {/* Gradient overlay — narrow left strip so 3D shows through */}
+        <div className="absolute inset-0 z-[1] pointer-events-none">
+          <div className="absolute inset-0 w-full md:w-[45%] bg-gradient-to-r from-bg-light/90 via-bg-light/50 to-transparent" />
+        </div>
 
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -70,7 +72,7 @@ export default function Landing() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-8"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full liquid-glass-hero mb-8"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               <span className="text-xs font-medium text-primary tracking-wide">AI-Powered Risk Assessment</span>
@@ -242,7 +244,7 @@ export default function Landing() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {/* Large feature card */}
-              <DepthCard className="md:col-span-2 rounded-2xl border border-ink/[0.06] p-8 sm:p-10 bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-sm hover:shadow-[0_8px_40px_-12px_rgba(24,95,165,0.12)] transition-shadow duration-500" delay={0}>
+              <DepthCard className="md:col-span-2 rounded-2xl border border-white/20 p-8 sm:p-10 liquid-glass-card hover:shadow-[0_8px_40px_-12px_rgba(24,95,165,0.15)] transition-shadow duration-500" delay={0}>
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -255,7 +257,7 @@ export default function Landing() {
               </DepthCard>
 
               {/* Small card */}
-              <DepthCard className="rounded-2xl border border-ink/[0.06] p-8 bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-sm hover:shadow-[0_8px_40px_-12px_rgba(24,95,165,0.12)] transition-shadow duration-500" delay={0.1}>
+              <DepthCard className="rounded-2xl border border-white/20 p-8 liquid-glass-card hover:shadow-[0_8px_40px_-12px_rgba(24,95,165,0.15)] transition-shadow duration-500" delay={0.1}>
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -268,7 +270,7 @@ export default function Landing() {
               </DepthCard>
 
               {/* Small card */}
-              <DepthCard className="rounded-2xl border border-ink/[0.06] p-8 bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-sm hover:shadow-[0_8px_40px_-12px_rgba(24,95,165,0.12)] transition-shadow duration-500" delay={0.15}>
+              <DepthCard className="rounded-2xl border border-white/20 p-8 liquid-glass-card hover:shadow-[0_8px_40px_-12px_rgba(24,95,165,0.15)] transition-shadow duration-500" delay={0.15}>
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -281,7 +283,7 @@ export default function Landing() {
               </DepthCard>
 
               {/* Large feature card */}
-              <DepthCard className="md:col-span-2 rounded-2xl border border-ink/[0.06] p-8 sm:p-10 bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-sm hover:shadow-[0_8px_40px_-12px_rgba(24,95,165,0.12)] transition-shadow duration-500" delay={0.2}>
+              <DepthCard className="md:col-span-2 rounded-2xl border border-white/20 p-8 sm:p-10 liquid-glass-card hover:shadow-[0_8px_40px_-12px_rgba(24,95,165,0.15)] transition-shadow duration-500" delay={0.2}>
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
