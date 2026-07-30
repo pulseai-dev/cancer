@@ -2,7 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-neutral: 58 58 56;
+  --color-ink: 44 44 42;
+}
 
+html[data-theme="dark"] {
+  --color-neutral: 180 180 180;
+  --color-ink: 241 239 232;
+}
 
 @layer base {
   html {
@@ -28,7 +36,7 @@
 
   html[data-theme="dark"] body {
     background: #1a1a1a;
-    color: #d4d4d4;
+    color: rgb(var(--color-neutral));
   }
 
   body.no-scroll {
@@ -38,12 +46,6 @@
   h1, h2, h3 {
     @apply font-heading;
     text-wrap: balance;
-  }
-
-  html[data-theme="dark"] h1,
-  html[data-theme="dark"] h2,
-  html[data-theme="dark"] h3 {
-    color: #F1EFE8;
   }
 
   html[data-theme="dark"] a {
