@@ -24,3 +24,17 @@ Thumbs.db
 # Temp
 .tmp/
 *.tmp
+
+# Unrelated skill/tool folders
+Anthropic/
+open-design-open-design-v0.16.1/
+hallmark-main/
+ui-ux-pro-max-skill-main/
+.vercel/
+
+# Markdown docs (non-project)
+cancer_detection_prd_v2.5.md
+dna.md
+features.md
+font_base64.txt
+polish_cancer.md
