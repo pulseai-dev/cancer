@@ -123,15 +123,6 @@ export default function Landing() {
               }>
                 <DnaHelix />
               </Suspense>
-              
-              {/* Interactive badge overlay */}
-              <div className="absolute bottom-4 left-4 right-4 p-3 rounded-2xl liquid-glass flex items-center justify-between pointer-events-none">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-xs font-mono font-medium text-ink">Interactive 3D Genomic Mesh</span>
-                </div>
-                <span className="text-[10px] uppercase font-mono tracking-widest text-neutral/40">Drag & Rotate</span>
-              </div>
             </motion.div>
 
           </div>

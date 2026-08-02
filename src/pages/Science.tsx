@@ -69,33 +69,142 @@ export default function Science() {
               The detection pipeline
             </motion.h2>
 
-            {/* 3D Visual Cards Showcase */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-              <div className="h-72 rounded-2xl liquid-glass-card border border-white/20 relative overflow-hidden p-4">
-                <Suspense fallback={<div className="w-full h-full flex items-center justify-center"><div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>}>
+      {/* Interactive 3D Research Domains Section (Reset Studios Style) */}
+      <section className="py-28 relative z-10 border-t border-ink/[0.04]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={stagger}
+          >
+            <motion.p variants={fadeUp} className="text-xs font-medium tracking-[0.2em] uppercase text-primary mb-4">
+              Advanced Research Architecture
+            </motion.p>
+            <motion.h2 variants={fadeUp} className="font-heading text-3xl sm:text-4xl lg:text-5xl text-ink mb-6 leading-tight">
+              3D Detection & Analysis Domains
+            </motion.h2>
+            <motion.p variants={fadeUp} className="text-lg text-neutral/60 max-w-2xl leading-relaxed mb-12">
+              Explore each specialized 3D analytical engine driving our diagnostic precision across molecular, cellular, and global network paradigms.
+            </motion.p>
+
+            {/* Showcase 1: Molecular Biomarkers */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24 p-8 sm:p-12 rounded-3xl liquid-glass-card border border-white/20">
+              <div>
+                <span className="text-xs font-mono text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-full inline-block mb-4">
+                  Domain 01 — Biomarkers
+                </span>
+                <h3 className="font-heading text-3xl text-ink mb-4">
+                  Molecular Biomarkers Analysis
+                </h3>
+                <p className="text-neutral/60 leading-relaxed mb-6">
+                  Extracts and analyzes sub-nanometer molecular mutations, amino acid sequences, and protein binding affinities using high-resolution 3D spatial simulation.
+                </p>
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  {['DNA Methylation', 'RNA Sequence Alignment', 'Enzyme Affinity', 'Somatic Variants'].map((item) => (
+                    <div key={item} className="flex items-center gap-2 text-sm text-neutral/70">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                      {item}
+                    </div>
+                  ))}
+                </div>
+                <div className="pt-6 border-t border-ink/10 flex gap-8">
+                  <div>
+                    <div className="font-heading text-2xl text-ink">99.4%</div>
+                    <div className="text-xs text-neutral/40 uppercase font-mono">Precision Rate</div>
+                  </div>
+                  <div>
+                    <div className="font-heading text-2xl text-ink">&lt; 0.8s</div>
+                    <div className="text-xs text-neutral/40 uppercase font-mono">Compute Time</div>
+                  </div>
+                </div>
+              </div>
+              <div className="h-[360px] lg:h-[420px] rounded-2xl overflow-hidden relative shadow-depth-lg border border-white/10">
+                <Suspense fallback={<div className="w-full h-full flex items-center justify-center"><div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>}>
                   <MolecularScene />
                 </Suspense>
-                <div className="absolute top-4 left-4 text-xs font-mono font-medium text-ink bg-white/40 dark:bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md">
-                  Molecular Biomarkers
-                </div>
               </div>
-              <div className="h-72 rounded-2xl liquid-glass-card border border-white/20 relative overflow-hidden p-4">
-                <Suspense fallback={<div className="w-full h-full flex items-center justify-center"><div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>}>
+            </div>
+
+            {/* Showcase 2: Cellular Matrix Bounding */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24 p-8 sm:p-12 rounded-3xl liquid-glass-card border border-white/20">
+              <div className="order-2 lg:order-1 h-[360px] lg:h-[420px] rounded-2xl overflow-hidden relative shadow-depth-lg border border-white/10">
+                <Suspense fallback={<div className="w-full h-full flex items-center justify-center"><div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>}>
                   <CancerCellMatrix />
                 </Suspense>
-                <div className="absolute top-4 left-4 text-xs font-mono font-medium text-ink bg-white/40 dark:bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md">
-                  Cellular Matrix Bounding
-                </div>
               </div>
-              <div className="h-72 rounded-2xl liquid-glass-card border border-white/20 relative overflow-hidden p-4">
-                <Suspense fallback={<div className="w-full h-full flex items-center justify-center"><div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>}>
-                  <OncologyNetworkGlobe />
-                </Suspense>
-                <div className="absolute top-4 left-4 text-xs font-mono font-medium text-ink bg-white/40 dark:bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md">
-                  Global Oncology Network
+              <div className="order-1 lg:order-2">
+                <span className="text-xs font-mono text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-full inline-block mb-4">
+                  Domain 02 — Cellular Spatialing
+                </span>
+                <h3 className="font-heading text-3xl text-ink mb-4">
+                  Cellular Matrix Bounding
+                </h3>
+                <p className="text-neutral/60 leading-relaxed mb-6">
+                  Evaluates 3D tissue density, cell cluster morphology, and abnormal growth vectors inside volumetric spatial bounding matrices.
+                </p>
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  {['Volumetric Density', 'Morphology Classification', 'Tissue Clustering', 'Vector Growth Mapping'].map((item) => (
+                    <div key={item} className="flex items-center gap-2 text-sm text-neutral/70">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                      {item}
+                    </div>
+                  ))}
+                </div>
+                <div className="pt-6 border-t border-ink/10 flex gap-8">
+                  <div>
+                    <div className="font-heading text-2xl text-ink">14</div>
+                    <div className="text-xs text-neutral/40 uppercase font-mono">Tissue Types</div>
+                  </div>
+                  <div>
+                    <div className="font-heading text-2xl text-ink">3D Spatial</div>
+                    <div className="text-xs text-neutral/40 uppercase font-mono">Resolution</div>
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* Showcase 3: Global Oncology Network */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-8 sm:p-12 rounded-3xl liquid-glass-card border border-white/20">
+              <div>
+                <span className="text-xs font-mono text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-full inline-block mb-4">
+                  Domain 03 — Global Data Hub
+                </span>
+                <h3 className="font-heading text-3xl text-ink mb-4">
+                  Global Oncology Network
+                </h3>
+                <p className="text-neutral/60 leading-relaxed mb-6">
+                  Real-time cross-referencing against 2.4M+ patient clinical records across premier global oncology institutes including MSKCC, Johns Hopkins, and Karolinska.
+                </p>
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  {['HIPAA Secure Sync', 'Peer-Reviewed Correlates', 'Global Cohort Matching', 'Real-time Telemetry'].map((item) => (
+                    <div key={item} className="flex items-center gap-2 text-sm text-neutral/70">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                      {item}
+                    </div>
+                  ))}
+                </div>
+                <div className="pt-6 border-t border-ink/10 flex gap-8">
+                  <div>
+                    <div className="font-heading text-2xl text-ink">2.4M+</div>
+                    <div className="text-xs text-neutral/40 uppercase font-mono">Global Records</div>
+                  </div>
+                  <div>
+                    <div className="font-heading text-2xl text-ink">99.2%</div>
+                    <div className="text-xs text-neutral/40 uppercase font-mono">Network Uptime</div>
+                  </div>
+                </div>
+              </div>
+              <div className="h-[360px] lg:h-[420px] rounded-2xl overflow-hidden relative shadow-depth-lg border border-white/10">
+                <Suspense fallback={<div className="w-full h-full flex items-center justify-center"><div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>}>
+                  <OncologyNetworkGlobe />
+                </Suspense>
+              </div>
+            </div>
+
+          </motion.div>
+        </div>
+      </section>
 
             <div className="space-y-12">
               {[
