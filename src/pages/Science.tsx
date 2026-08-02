@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 const ParticleField = lazy(() => import('../components/three/ParticleField'));
 const MolecularScene = lazy(() => import('../components/three/MolecularScene'));
 const OncologyNetworkGlobe = lazy(() => import('../components/three/OncologyNetworkGlobe'));
+const CancerCellMatrix = lazy(() => import('../components/three/CancerCellMatrix'));
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -69,13 +70,21 @@ export default function Science() {
             </motion.h2>
 
             {/* 3D Visual Cards Showcase */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
               <div className="h-72 rounded-2xl liquid-glass-card border border-white/20 relative overflow-hidden p-4">
                 <Suspense fallback={<div className="w-full h-full flex items-center justify-center"><div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>}>
                   <MolecularScene />
                 </Suspense>
                 <div className="absolute top-4 left-4 text-xs font-mono font-medium text-ink bg-white/40 dark:bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md">
-                  Molecular Biomarkers Analysis
+                  Molecular Biomarkers
+                </div>
+              </div>
+              <div className="h-72 rounded-2xl liquid-glass-card border border-white/20 relative overflow-hidden p-4">
+                <Suspense fallback={<div className="w-full h-full flex items-center justify-center"><div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>}>
+                  <CancerCellMatrix />
+                </Suspense>
+                <div className="absolute top-4 left-4 text-xs font-mono font-medium text-ink bg-white/40 dark:bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md">
+                  Cellular Matrix Bounding
                 </div>
               </div>
               <div className="h-72 rounded-2xl liquid-glass-card border border-white/20 relative overflow-hidden p-4">
@@ -83,7 +92,7 @@ export default function Science() {
                   <OncologyNetworkGlobe />
                 </Suspense>
                 <div className="absolute top-4 left-4 text-xs font-mono font-medium text-ink bg-white/40 dark:bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md">
-                  Global Oncology Dataset Network
+                  Global Oncology Network
                 </div>
               </div>
             </div>

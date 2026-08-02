@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useRef, lazy, Suspense } from 'react';
-const DnaWidget = lazy(() => import('../components/three/DnaWidget'));
+const DnaHelix = lazy(() => import('../components/three/DnaHelix'));
 import Button from '../components/ui/Button';
 
 const fadeUp = {
@@ -121,7 +121,7 @@ export default function Landing() {
                   <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
                 </div>
               }>
-                <DnaWidget />
+                <DnaHelix />
               </Suspense>
               
               {/* Interactive badge overlay */}
