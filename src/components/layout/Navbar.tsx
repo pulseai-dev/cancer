@@ -71,7 +71,7 @@ export default function Navbar() {
                   }`}
                 >
                   {isActive && (
-                    <span className="absolute inset-0 bg-white/80 rounded-full shadow-depth-sm" />
+                    <span className={`absolute inset-0 rounded-full shadow-depth-sm ${isDark ? 'bg-white/15' : 'bg-white/80'}`} />
                   )}
                   <span className="relative z-10">{item.label}</span>
                 </Link>

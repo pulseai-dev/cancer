@@ -113,8 +113,8 @@ export default function Landing() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5, duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
-              className="relative rounded-3xl overflow-hidden liquid-glass-card"
-              style={{ aspectRatio: '4/3', minHeight: '400px' }}
+              className="relative rounded-3xl overflow-hidden liquid-glass-card border border-white/20 shadow-depth-lg group hover:shadow-[0_20px_60px_-15px_rgba(24,95,165,0.25)] transition-all duration-700"
+              style={{ aspectRatio: '4/3', minHeight: '420px' }}
             >
               <Suspense fallback={
                 <div className="w-full h-full flex items-center justify-center">
@@ -123,6 +123,15 @@ export default function Landing() {
               }>
                 <DnaWidget />
               </Suspense>
+              
+              {/* Interactive badge overlay */}
+              <div className="absolute bottom-4 left-4 right-4 p-3 rounded-2xl liquid-glass flex items-center justify-between pointer-events-none">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-xs font-mono font-medium text-ink">Interactive 3D Genomic Mesh</span>
+                </div>
+                <span className="text-[10px] uppercase font-mono tracking-widest text-neutral/40">Drag & Rotate</span>
+              </div>
             </motion.div>
 
           </div>

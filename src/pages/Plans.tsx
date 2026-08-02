@@ -127,14 +127,15 @@ export default function Plans() {
               <motion.div
                 key={plan.name}
                 variants={fadeUp}
-                className={`rounded-card p-8 ${
+                whileHover={{ y: -6 }}
+                className={`rounded-2xl p-8 liquid-glass-card border transition-all duration-300 ${
                   plan.highlighted
-                    ? 'border-2 border-primary bg-bg-light relative'
-                    : 'border border-ink/5 bg-bg-light'
+                    ? 'border-primary/50 relative shadow-[0_8px_32px_-8px_rgba(24,95,165,0.25)]'
+                    : 'border-white/20'
                 }`}
               >
                 {plan.highlighted && (
-                  <span className="absolute -top-3 left-8 text-xs font-medium tracking-wide uppercase bg-primary text-white px-3 py-1 rounded-full">
+                  <span className="absolute -top-3 left-8 text-xs font-medium tracking-wide uppercase bg-primary text-white px-3 py-1 rounded-full shadow-depth-sm">
                     Recommended
                   </span>
                 )}
